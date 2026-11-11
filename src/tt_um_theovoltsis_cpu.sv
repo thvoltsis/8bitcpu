@@ -1,10 +1,5 @@
 `default_nettype none
 
-// Συνδέουμε ΜΟΝΟ τα 3 βασικά αρχεία
-`include "alu.sv"
-`include "ram.sv"
-`include "controler.sv" 
-
 module tt_um_theovoltsis_cpu(
     input  logic [7:0] ui_in,    // 8 Διακόπτες (sw_addr & sw_data)
     output logic [7:0] uo_out,   // 8 LEDs (Accumulator)
