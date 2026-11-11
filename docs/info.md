@@ -1,20 +1,11 @@
-<!---
-
-This file is used to generate your project datasheet. Please fill in the information below and delete any unused
-sections.
-
-You can also include images in this folder and reference them in the markdown. Each image must be less than
-512 kb in size, and the combined size of all images must be less than 1 MB.
--->
-
 ## How it works
 
-Explain how your project works
+This is a custom single-cycle 8-bit CPU. It features an ALU with 14 operations, a 16-byte synchronous RAM, and a Control Unit Finite State Machine (FSM). It operates in two modes: "Live Mode" for manual input testing and "Program Mode" for executing instructions from the internal RAM.
 
 ## How to test
 
-Explain how to use your project
+Set the Live Mode pin (uio_in[0]) to 1 to manually feed opcodes and operands via the input pins and observe the accumulator on the output LEDs. Set it to 0 to allow the FSM to fetch and execute instructions directly from the internal RAM on every clock cycle.
 
 ## External hardware
 
-List external hardware used in your project (e.g. PMOD, LED display, etc), if any
+No external hardware is required.
