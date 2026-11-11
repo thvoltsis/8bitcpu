@@ -5,7 +5,7 @@
 `include "ram.sv"
 `include "controler.sv" 
 
-module top(
+module tt_um_theovoltsis_cpu(
     input  logic [7:0] ui_in,    // 8 Διακόπτες (sw_addr & sw_data)
     output logic [7:0] uo_out,   // 8 LEDs (Accumulator)
     input  logic [7:0] uio_in,   // Αμφίδρομα (Είσοδοι: Opcode, Live)
