@@ -1,55 +1,58 @@
 # Tiny Tapeout project information
 project:
-  title:        ""      # Project title
-  author:       ""      # Your name
-  discord:      ""      # Your discord username, for communication and automatically assigning you a Tapeout role (optional)
-  description:  ""      # One line description of what your project does
-  language:     "Verilog" # other examples include SystemVerilog, Amaranth, VHDL, etc
-  clock_hz:     0       # Clock frequency in Hz (or 0 if not applicable)
+  title:        "8-bit Custom CPU"      # Βάλε ό,τι τίτλο θέλεις
+  author:       "theovolt"               # Το όνομά σου
+  discord:      ""                      # Το discord σου (προαιρετικό)
+  description:  "A single-cycle 8-bit CPU with ALU, RAM and Control Unit" 
+  language:     "SystemVerilog"         # Το αλλάξαμε σε SystemVerilog
+  clock_hz:     50000000                # Στοχεύουμε στα 50MHz
 
   # How many tiles your design occupies? A single tile is about 167x108 uM.
   tiles: "1x1"          # Valid values: 1x1, 1x2, 2x2, 3x2, 4x2, 6x2 or 8x2
 
   # Your top module name must start with "tt_um_". Make it unique by including your github username:
-  top_module:  "tt_um_example"
+  top_module:  "top"      # Το ακριβές όνομα του top module σου
 
   # List your project's source files here.
   # Source files must be in ./src and you must list each source file separately, one per line.
   # Don't forget to also update `PROJECT_SOURCES` in test/Makefile.
   source_files:
-    - "project.v"
+    - "tt_um_giorgos_cpu.sv"            # ΠΡΟΣΟΧΗ: Το top.sv πρέπει να το μετονομάσεις σε tt_um_giorgos_cpu.sv
+    - "controler.sv"
+    - "alu.sv"
+    - "ram.sv"
 
 # The pinout of your project. Leave unused pins blank. DO NOT delete or add any pins.
 pinout:
-  # Inputs
-  ui[0]: ""
-  ui[1]: ""
-  ui[2]: ""
-  ui[3]: ""
-  ui[4]: ""
-  ui[5]: ""
-  ui[6]: ""
-  ui[7]: ""
+  # Inputs (ui_in)
+  ui[0]: "sw_data[0] / sw_addr[0]"
+  ui[1]: "sw_data[1] / sw_addr[1]"
+  ui[2]: "sw_data[2] / sw_addr[2]"
+  ui[3]: "sw_data[3] / sw_addr[3]"
+  ui[4]: "sw_data[4]"
+  ui[5]: "sw_data[5]"
+  ui[6]: "sw_data[6]"
+  ui[7]: "sw_data[7]"
 
-  # Outputs
-  uo[0]: ""
-  uo[1]: ""
-  uo[2]: ""
-  uo[3]: ""
-  uo[4]: ""
-  uo[5]: ""
-  uo[6]: ""
-  uo[7]: ""
+  # Outputs (uo_out)
+  uo[0]: "Accumulator bit 0"
+  uo[1]: "Accumulator bit 1"
+  uo[2]: "Accumulator bit 2"
+  uo[3]: "Accumulator bit 3"
+  uo[4]: "Accumulator bit 4"
+  uo[5]: "Accumulator bit 5"
+  uo[6]: "Accumulator bit 6"
+  uo[7]: "Accumulator bit 7"
 
-  # Bidirectional pins
-  uio[0]: ""
+  # Bidirectional pins (uio)
+  uio[0]: "Live Mode (Input: 1=Live, 0=RAM)"
   uio[1]: ""
   uio[2]: ""
-  uio[3]: ""
-  uio[4]: ""
-  uio[5]: ""
-  uio[6]: ""
-  uio[7]: ""
+  uio[3]: "Opcode bit 0 (Input)"
+  uio[4]: "Opcode bit 1 (Input)"
+  uio[5]: "Opcode bit 2 (Input)"
+  uio[6]: "Opcode bit 3 (Input)"
+  uio[7]: "Overflow Flag (Output)"
 
 # Do not change!
 yaml_version: 6
