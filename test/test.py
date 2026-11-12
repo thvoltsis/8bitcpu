@@ -25,12 +25,12 @@ async def test_full_cpu(dut):
 
     # Βοηθητική συνάρτηση ειδικά ρυθμισμένη για φυσικό πυρίτιο
     async def send_live(opcode, ui_data):
-        await FallingEdge(dut.clk) # Αλλάζουμε ρεύματα μόνο όταν το ρολόι "ξεκουράζεται"
+        await FallingEdge(dut.clk)
         dut.ui_in.value = ui_data
         dut.uio_in.value = (opcode << 3) | 1
         
-        await RisingEdge(dut.clk) # Χτύπημα ρολογιού για καταχώρηση
-        await RisingEdge(dut.clk) # Χτύπημα ρολογιού για εξαγωγή αποτελέσματος
+        await RisingEdge(dut.clk)
+        await RisingEdge(dut.clk)
 
     dut._log.info("ΦΑΣΗ 1: Reset και δοκιμή ALU...")
     assert dut.uo_out.value == 0, f"Σφάλμα Reset: {dut.uo_out.value}"
@@ -53,13 +53,15 @@ async def test_full_cpu(dut):
 
     dut._log.info("ΦΑΣΗ 3: Εκτέλεση προγράμματος...")
     await FallingEdge(dut.clk)
+    # ΚΡΙΣΙΜΗ ΔΙΟΡΘΩΣΗ: Κλείνουμε τους διακόπτες ταυτόχρονα με το Reset 
+    # για να μην αποθηκεύσει η RAM το μηδέν του Reset!
+    dut.ui_in.value = 0
+    dut.uio_in.value = 0
     dut.rst_n.value = 0
     await ClockCycles(dut.clk, 2)
     
     await FallingEdge(dut.clk)
     dut.rst_n.value = 1
-    dut.ui_in.value = 0
-    dut.uio_in.value = 0
     
     # 5 κύκλοι είναι υπεραρκετοί για να τρέξουν οι 2 εντολές
     await ClockCycles(dut.clk, 5)
