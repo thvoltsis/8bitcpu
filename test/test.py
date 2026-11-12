@@ -6,39 +6,38 @@ from cocotb.triggers import RisingEdge, FallingEdge, ClockCycles
 async def test_full_cpu(dut):
     dut._log.info("--- Εκκίνηση Πλήρους Ελέγχου (Gate-Level Safe) ---")
 
-    # 1. Εκκίνηση Ρολογιού
-    clock = Clock(dut.clk, 10, units="ns")
+    # 1. Πιο αργό ρολόι (100ns / 10 MHz) για να προλαβαίνουν τα ρεύματα
+    clock = Clock(dut.clk, 100, units="ns")
     cocotb.start_soon(clock.start())
 
-    # Αρχικοποίηση ΣΕ ΣΤΑΘΕΡΗ ΚΑΤΑΣΤΑΣΗ πριν το reset
+    # Αρχικοποίηση
     dut.ena.value = 1
     dut.ui_in.value = 0
     dut.uio_in.value = 0
     dut.rst_n.value = 0
-
     await ClockCycles(dut.clk, 3)
 
-    # Απελευθέρωση Reset ΠΑΝΤΑ στην κατιούσα (Falling Edge)
     await FallingEdge(dut.clk)
     dut.rst_n.value = 1
     await ClockCycles(dut.clk, 2)
 
-    # Βοηθητική συνάρτηση ειδικά ρυθμισμένη για φυσικό πυρίτιο
     async def send_live(opcode, ui_data):
         await FallingEdge(dut.clk)
         dut.ui_in.value = ui_data
         dut.uio_in.value = (opcode << 3) | 1
-        
         await RisingEdge(dut.clk)
         await RisingEdge(dut.clk)
 
     dut._log.info("ΦΑΣΗ 1: Reset και δοκιμή ALU...")
+    await FallingEdge(dut.clk) # Πάντα διαβάζουμε στο Falling Edge!
     assert dut.uo_out.value == 0, f"Σφάλμα Reset: {dut.uo_out.value}"
 
     await send_live(5, 10)
+    await FallingEdge(dut.clk)
     assert dut.uo_out.value == 10, f"Σφάλμα ALU LOAD: {dut.uo_out.value}"
     
     await send_live(1, 15)
+    await FallingEdge(dut.clk)
     assert dut.uo_out.value == 25, f"Σφάλμα ALU ADD: {dut.uo_out.value}"
 
     dut._log.info("ΦΑΣΗ 2: Φόρτωση προγράμματος στη RAM...")
@@ -53,8 +52,6 @@ async def test_full_cpu(dut):
 
     dut._log.info("ΦΑΣΗ 3: Εκτέλεση προγράμματος...")
     await FallingEdge(dut.clk)
-    # ΚΡΙΣΙΜΗ ΔΙΟΡΘΩΣΗ: Κλείνουμε τους διακόπτες ταυτόχρονα με το Reset 
-    # για να μην αποθηκεύσει η RAM το μηδέν του Reset!
     dut.ui_in.value = 0
     dut.uio_in.value = 0
     dut.rst_n.value = 0
@@ -63,8 +60,11 @@ async def test_full_cpu(dut):
     await FallingEdge(dut.clk)
     dut.rst_n.value = 1
     
-    # 5 κύκλοι είναι υπεραρκετοί για να τρέξουν οι 2 εντολές
     await ClockCycles(dut.clk, 5)
-        
+    
+    # Το κρίσιμο σημείο: Περιμένουμε το Falling Edge για να ηρεμήσει το ρεύμα 
+    # πριν διαβάσουμε τον Accumulator
+    await FallingEdge(dut.clk)
     assert dut.uo_out.value == 42, f"Σφάλμα Program Mode: {dut.uo_out.value}"
+    
     dut._log.info("--- ΟΛΑ ΤΕΛΕΙΑ! Η CPU ΕΙΝΑΙ ΕΤΟΙΜΗ ΓΙΑ ΚΑΤΑΣΚΕΥΗ! ---")
