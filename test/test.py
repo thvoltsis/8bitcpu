@@ -6,14 +6,13 @@ from cocotb.triggers import RisingEdge, FallingEdge, ClockCycles
 async def test_full_cpu(dut):
     dut._log.info("--- Εκκίνηση Πλήρους Ελέγχου (Gate-Level Safe) ---")
 
-    # 1. Πιο αργό ρολόι (100ns / 10 MHz) για να προλαβαίνουν τα ρεύματα
     clock = Clock(dut.clk, 100, units="ns")
     cocotb.start_soon(clock.start())
 
-    # Αρχικοποίηση
+    # Αρχικοποίηση (Ξεκινάμε με NOP = 13 για να μην πειραχτεί ο Accumulator)
     dut.ena.value = 1
     dut.ui_in.value = 0
-    dut.uio_in.value = 0
+    dut.uio_in.value = (13 << 3) | 1  
     dut.rst_n.value = 0
     await ClockCycles(dut.clk, 3)
 
@@ -25,11 +24,16 @@ async def test_full_cpu(dut):
         await FallingEdge(dut.clk)
         dut.ui_in.value = ui_data
         dut.uio_in.value = (opcode << 3) | 1
+        
+        # Περιμένουμε ΕΝΑ χτύπημα ρολογιού για να εκτελεστεί η πράξη
         await RisingEdge(dut.clk)
-        await RisingEdge(dut.clk)
+        
+        # Αμέσως μόλις πέσει το ρολόι, βάζουμε NOP (13) για να μην εκτελεστεί 2η φορά!
+        await FallingEdge(dut.clk)
+        dut.uio_in.value = (13 << 3) | 1
 
     dut._log.info("ΦΑΣΗ 1: Reset και δοκιμή ALU...")
-    await FallingEdge(dut.clk) # Πάντα διαβάζουμε στο Falling Edge!
+    await FallingEdge(dut.clk)
     assert dut.uo_out.value == 0, f"Σφάλμα Reset: {dut.uo_out.value}"
 
     await send_live(5, 10)
@@ -62,8 +66,6 @@ async def test_full_cpu(dut):
     
     await ClockCycles(dut.clk, 5)
     
-    # Το κρίσιμο σημείο: Περιμένουμε το Falling Edge για να ηρεμήσει το ρεύμα 
-    # πριν διαβάσουμε τον Accumulator
     await FallingEdge(dut.clk)
     assert dut.uo_out.value == 42, f"Σφάλμα Program Mode: {dut.uo_out.value}"
     
