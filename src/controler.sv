@@ -55,7 +55,7 @@ EXECUTE:begin
         state<=EXECUTE;
     end
     else begin
-        if(instruction_reg[7:4]!==4'b0110)begin
+        if(instruction_reg[7:4]!=4'b0110)begin
             a<=a_result;
             overflow<=a_overflow;
         end
