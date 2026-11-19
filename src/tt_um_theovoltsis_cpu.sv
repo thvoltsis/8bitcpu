@@ -80,10 +80,14 @@ module tt_um_theovoltsis_cpu(
         .alu_b        (alu_operand_wire) 
     );
 (* keep *)
-    thv_art art_inst ();
+    thv_art art_inst (
+        .tie (1'b0)
+    );
 endmodule
 
 
 (* blackbox, keep *)
-module thv_art();
+module thv_art (
+    input wire tie
+);
 endmodule
