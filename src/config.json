@@ -85,7 +85,13 @@
 
   "//": "Only export pin area in LEF (without any connected nets)",
   "MAGIC_WRITE_LEF_PINONLY": 1,
-"MACROS": {
+
+  "RUN_HEURISTIC_DIODE_INSERTION": true,
+  "GRT_ANTENNA_ITERS": 15,
+  "GRT_ANTENNA_MARGIN": 10,
+  "FP_PDN_MACRO_HOOKS": ["art_inst VPWR VGND VPWR VGND"],
+
+  "MACROS": {
     "thv_art": {
       "instances": {
         "art_inst": {
