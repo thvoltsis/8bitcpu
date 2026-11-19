@@ -97,7 +97,7 @@
     "thv_art": {
       "instances": {
         "art_inst": {
-          "location":,
+          "location":[45, 12],
           "orientation": "N"
         }
       },
