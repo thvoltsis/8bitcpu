@@ -101,8 +101,9 @@
           "orientation": "N"
         }
       },
-      "gds": ["dir::../macros/thv_art.gds"],
+     "gds": ["dir::../macros/thv_art.gds"],
       "lef": ["dir::../macros/thv_art.lef"],
+      "nl": ["dir::../macros/thv_art.v"],
       "spice": ["dir::../macros/thv_art.spice"]
     }
   }
