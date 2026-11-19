@@ -1,5 +1,7 @@
 `default_nettype none
-
+(* blackbox *) (* keep *)
+module thv_art ();
+endmodule
 module tt_um_theovoltsis_cpu(
     input  logic [7:0] ui_in,    // 8 Διακόπτες (sw_addr & sw_data)
     output logic [7:0] uo_out,   // 8 LEDs (Accumulator)
@@ -90,8 +92,4 @@ module tt_um_theovoltsis_cpu(
 
 endmodule
 
-(* blackbox, keep *)
-module thv_art ();
-endmodule
 
-`default_nettype wire
