@@ -92,12 +92,11 @@
   "FP_MACRO_HORIZONTAL_HALO": 2,
   "FP_MACRO_VERTICAL_HALO": 2,
   "IGNORE_DISCONNECTED_MODULES": [
-    "thv_art",
-    "art_inst"
+    "thv_art"
   ],
   "ERROR_ON_DISCONNECTED_PINS": false,
 
-  "MACROS": {
+"MACROS": {
     "thv_art": {
       "instances": {
         "art_inst": {
@@ -106,11 +105,11 @@
         }
       },
       "gds": ["dir::../macros/thv_art.gds"],
-      "lef": ["dir::../macros/thv_art.lef"]
+      "lef": ["dir::../macros/thv_art.lef"],
+      "nl": ["dir::../macros/thv_art.v"]
     }
   }
 }
-
 
 
 
