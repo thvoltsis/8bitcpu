@@ -105,8 +105,7 @@
         }
       },
       "gds": ["dir::../macros/thv_art.gds"],
-      "lef": ["dir::../macros/thv_art.lef"],
-      "nl": ["dir::../macros/thv_art.v"]
+      "lef": ["dir::../macros/thv_art.lef"]
     }
   }
 }
