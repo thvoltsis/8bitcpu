@@ -80,22 +80,26 @@ module tt_um_theovoltsis_cpu(
         .alu_b        (alu_operand_wire) 
     );
 (* keep *)
-    thv_art art_inst (
 `ifdef USE_POWER_PINS
+    thv_art art_inst (
         .VPWR (VPWR),
         .VGND (VGND)
-`endif
     );
+`else
+    thv_art art_inst ();
+`endif
 endmodule
 
 
 (* blackbox, keep *)
-module thv_art (
 `ifdef USE_POWER_PINS
+module thv_art (
     inout wire VPWR,
     inout wire VGND
-`endif
 );
+`else
+module thv_art ();
+`endif
 endmodule
 );
 endmodule
