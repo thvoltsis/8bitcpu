@@ -1,2 +1,3 @@
 .subckt thv_art
+R1 1 1 1
 .ends
