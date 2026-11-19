@@ -80,12 +80,9 @@ module tt_um_theovoltsis_cpu(
         .alu_b        (alu_operand_wire) 
     );
 
-endmodule
-// ... ο κώδικας της CPU σου ...
-
     thv_art art_inst ();
-
 endmodule
+
 
 (* blackbox *)
 module thv_art();
