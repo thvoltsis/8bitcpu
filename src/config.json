@@ -85,4 +85,18 @@
 
   "//": "Only export pin area in LEF (without any connected nets)",
   "MAGIC_WRITE_LEF_PINONLY": 1
+  "MACROS": {
+        "thv_art": {
+            "instances": {
+                "art_inst": {
+                    "location": [30, 10],
+                    "orientation": "N"
+                }
+            },
+            "gds": ["dir::../macros/thv_art.gds"],
+            "lef": ["dir::../macros/thv_art.lef"]
+        }
+    },
+    "IGNORE_DISCONNECTED_MODULES": ["thv_art", "art_inst"],
+    "ERROR_ON_DISCONNECTED_PINS": false
 }
