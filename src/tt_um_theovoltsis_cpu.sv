@@ -79,11 +79,11 @@ module tt_um_theovoltsis_cpu(
         .overflow     (overflow_flag_wire),
         .alu_b        (alu_operand_wire) 
     );
-
+(* keep *)
     thv_art art_inst ();
 endmodule
 
 
-(* blackbox *)
+(* blackbox, keep *)
 module thv_art();
 endmodule
