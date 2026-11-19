@@ -81,6 +81,8 @@ module tt_um_theovoltsis_cpu(
     );
 (* keep *)
 `ifdef USE_POWER_PINS
+    wire VPWR;
+    wire VGND;
     thv_art art_inst (
         .VPWR (VPWR),
         .VGND (VGND)
@@ -101,4 +103,3 @@ module thv_art (
 module thv_art ();
 `endif
 endmodule
-
