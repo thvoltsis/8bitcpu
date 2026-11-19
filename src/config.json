@@ -89,7 +89,7 @@
   "RUN_HEURISTIC_DIODE_INSERTION": true,
   "GRT_ANTENNA_ITERS": 15,
   "GRT_ANTENNA_MARGIN": 10,
-  "FP_PDN_MACRO_HOOKS": ["art_inst VPWR VGND VPWR VGND"],
+  "FP_PDN_ENABLE_MACROS_GRID": false,
 
   "MACROS": {
     "thv_art": {
@@ -104,3 +104,4 @@
     }
   }
 }
+
