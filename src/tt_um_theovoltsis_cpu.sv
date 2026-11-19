@@ -101,5 +101,4 @@ module thv_art (
 module thv_art ();
 `endif
 endmodule
-);
-endmodule
+
