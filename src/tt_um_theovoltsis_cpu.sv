@@ -14,7 +14,8 @@ module tt_um_theovoltsis_cpu(
 );
 
     // Το uio[7] ρυθμίζεται ως έξοδος (για το Overflow). Τα υπόλοιπα uio[6:0] είναι είσοδοι.
-    assign uio_oe = 8'b10000000; 
+        assign uio_oe = {1'b1, {7{~ena}}};
+
 
     // --- Καλωδίωση Εσωτερικών Σημάτων ---
     logic signed [7:0] sw_data;
