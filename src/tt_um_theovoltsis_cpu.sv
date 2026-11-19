@@ -81,13 +81,21 @@ module tt_um_theovoltsis_cpu(
     );
 (* keep *)
     thv_art art_inst (
-        .tie (1'b0)
+`ifdef USE_POWER_PINS
+        .VPWR (VPWR),
+        .VGND (VGND)
+`endif
     );
 endmodule
 
 
 (* blackbox, keep *)
 module thv_art (
-    input wire tie
+`ifdef USE_POWER_PINS
+    inout wire VPWR,
+    inout wire VGND
+`endif
+);
+endmodule
 );
 endmodule
