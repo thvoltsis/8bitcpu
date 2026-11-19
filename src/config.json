@@ -100,7 +100,8 @@
         }
       },
       "gds": ["dir::../macros/thv_art.gds"],
-      "lef": ["dir::../macros/thv_art.lef"]
+      "lef": ["dir::../macros/thv_art.lef"],
+      "spice": ["dir::../macros/thv_art.spice"]
     }
   }
 }
